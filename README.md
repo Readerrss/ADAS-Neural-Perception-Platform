@@ -52,7 +52,7 @@
 
 ---
 
-## 4. Local Automation & Startup (`run.bat`)[cite: 1]
+## 4. Local Automation & Startup (`run.bat`)
 Automated batch script to run FastAPI backend and Cloudflare Quick Tunnel concurrently:
 
 ```cmd
