@@ -1,6 +1,6 @@
 # Model Weights & Large Files
 
-Due to GitHub's strict file size limits, large model artifacts, raw training weights, and compiled runtime engines (such as `best.pt`, `best.onnx`, and `best.engine`) are hosted externally.
+Due to GitHub's strict file size limits, large model artifacts, raw training weights, and compiled runtime engines (such as `best.engine`) are hosted externally.
 
 You can access and download all required large files from the official Google Drive repository:
 
@@ -17,8 +17,11 @@ You can access and download all required large files from the official Google Dr
    adas-web-system/
    ├── app.py
    ├── best.engine  <-- (Place downloaded engine here)
-   ├── best.onnx    <-- (Optional)
-   ├── best.pt      <-- (Optional)
    ├── run.bat
+   ├── classes.json
+   ├── requirments.txt
+   ├── conver.py
+   ├── uploads
+   ├── processed
    └── templates/
        └── index.html
