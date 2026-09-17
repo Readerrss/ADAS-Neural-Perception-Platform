@@ -69,6 +69,7 @@ timeout /t 3 /nobreak > nul
 start "Cloudflare Tunnel" cmd /k "..\cloudflared.exe tunnel --url http://localhost:8000"
 
 echo ADAS Platform and Cloudflare Tunnel are online!
-pause```
+pause
+```
 
 Check out our detailed [Model Weights & Large Files Guide](MODELS.md) for download links.
