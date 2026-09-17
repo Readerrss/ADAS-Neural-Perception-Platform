@@ -40,7 +40,7 @@
 ---
 
 ## 3. Backend & Frontend Architecture (VS Code Workspace)
-* **Backend (`app.py`):** FastAPI and Uvicorn server implementing adaptive model binding, spatial depth/kinematic triangulation via `SensitiveADASPerceptionEngine`, ego-vehicle dashboard masking (`ny2 >= 0.93`), duplicate filtering, and real-time WebSocket video/telemetry streaming at 50-60 FPS.
+* **Backend (`app.py`):** FastAPI and Uvicorn server implementing adaptive model binding, spatial depth/kinematic triangulation via `SensitiveADASPerceptionEngine`, ego-vehicle dashboard masking (`ny2 >= 0.93`), duplicate filtering, and real-time WebSocket video/telemetry streaming at 10-19 FPS.
   * **Adaptive Model Binding:** Automatically prioritizes compiled TensorRT GPU engine (`best.engine`), falling back to CUDA PyTorch or CPU runtimes.
   * **SensitiveADASPerceptionEngine:** Computes real-world spatial depth ($z$) and lateral position ($x$) using camera focal length calibration and bounding box height triangulation, tracks objects across frames with velocity vectors, calculates Time-To-Collision (TTC), and evaluates threat levels into Critical, Caution, or Normal tiers based on ego-corridor proximity.
   * **Ego-Vehicle & Duplicate Filtering:** `is_ego_vehicle_part` masks out the vehicle's dashboard hood at the bottom edge (`ny2 >= 0.93`) to prevent false self-wiping of traffic, and `deduplicate_detections` suppresses overlapping bounding boxes and nested misclassifications.
