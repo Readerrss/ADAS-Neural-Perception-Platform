@@ -44,7 +44,7 @@
   * **Adaptive Model Binding:** Automatically prioritizes compiled TensorRT GPU engine (`best.engine`), falling back to CUDA PyTorch or CPU runtimes.
   * **SensitiveADASPerceptionEngine:** Computes real-world spatial depth ($z$) and lateral position ($x$) using camera focal length calibration and bounding box height triangulation, tracks objects across frames with velocity vectors, calculates Time-To-Collision (TTC), and evaluates threat levels into Critical, Caution, or Normal tiers based on ego-corridor proximity.
   * **Ego-Vehicle & Duplicate Filtering:** `is_ego_vehicle_part` masks out the vehicle's dashboard hood at the bottom edge (`ny2 >= 0.93`) to prevent false self-wiping of traffic, and `deduplicate_detections` suppresses overlapping bounding boxes and nested misclassifications.
-  * **WebSocket Stream Pipeline (`/ws/live/{job_id}`):** Decodes video frames frame-by-frame, runs strided inference, compresses via Turbo JPEG, and broadcasts video + JSON telemetry at 50-60 FPS.
+  * **WebSocket Stream Pipeline (`/ws/live/{job_id}`):** Decodes video frames frame-by-frame, runs strided inference, compresses via Turbo JPEG, and broadcasts video + JSON telemetry at 10-19 FPS.
 * **Frontend (`templates/index.html`):** Tailwind CSS dashboard managing file uploads (`/upload_live`) to trigger websocket streaming, WebSocket client communication, base64 JPEG frame rendering, and dynamic threat-tier HUD visualization.
   * **Tailwind CSS Dashboard:** Modern, high-contrast HUD layout optimized for vehicular telemetry.
   * **WebSocket Client & Video Renderer:** Connects to backend websocket, receives base64-encoded JPEG frames, and renders them onto the UI canvas.
