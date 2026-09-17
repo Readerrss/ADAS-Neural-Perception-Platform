@@ -70,3 +70,5 @@ start "Cloudflare Tunnel" cmd /k "..\cloudflared.exe tunnel --url http://localho
 
 echo ADAS Platform and Cloudflare Tunnel are online!
 pause
+
+Check out our detailed [Model Weights & Large Files Guide](MODELS.md) for download links.
