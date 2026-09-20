@@ -12,13 +12,13 @@ The **ADAS Neural Perception Platform** is an enterprise-grade, high-throughput 
 ## 1. Model Training & Pipeline Workflow (Kaggle Notebook)
 * **Execution Environment:** Cloud-based Kaggle Notebooks utilizing high-performance GPU hardware accelerators for efficient custom dataset training.
 * **Perception Scope:** Configured Ultralytics YOLO to detect unstructured road objects including cars, two-wheelers, auto-rickshaws, pedestrians, stray animals, potholes, and speed bumps.
-* **Artifact Generation:** Final trained weights compiled and exported as `best.pt` for local workspace deployment.
+* **Artifact Generation:** Final trained weights compiled and exported as `best.pt` for local workspace deployment. *(See our detailed [Model Weights & Large Files Guide](MODELS.md) for external download links and workspace setup instructions).*
 
 ---
 
 ## 2. Model Conversion Pipeline (`.pt` -> `.onnx` -> `.engine`)
 * **PyTorch Training Source (`best.pt`):**
-  * Format: Native PyTorch weights file.
+  * Format: Native PyTorch weights file (Downloadable via [MODELS.md](MODELS.md)).
   * Usage: Primary baseline model trained on custom road dataset.
 * **PyTorch to ONNX Export (`export_onnx.py`):**
   * Converts `.pt` to portable Open Neural Network Exchange format.
@@ -84,6 +84,3 @@ start "Cloudflare Tunnel" cmd /k "..\cloudflared.exe tunnel --url http://localho
 
 echo ADAS Platform and Cloudflare Tunnel are online!
 pause
-```
-
-Check out our detailed [Model Weights & Large Files Guide](MODELS.md) for download links.
