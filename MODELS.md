@@ -11,17 +11,19 @@ You can access and download all required large files from the official Google Dr
 ### Setup Instructions
 
 1. **Download Artifacts:** Open the Google Drive link above and download the necessary model weights or compiled engines (`best.pt`, `best.onnx`, or `best.engine`).
-2. **Place in Project:** Move the downloaded files directly into your local workspace inside the **`adas-web-system/`** folder.
-3. **Verify Structure:** Ensure your folder structure looks like this before launching:
+2. **Place in Project:** Move the downloaded files directly into your local workspace inside the root **`adas-web-system/`** folder.
+3. **Verify Structure:** Ensure your local workspace matches this configuration before launching:
    ```text
    adas-web-system/
    ├── app.py
-   ├── best.engine  <-- (Place downloaded engine here)
-   ├── run.bat
+   ├── best.engine          <-- (Place downloaded engine here)
    ├── classes.json
+   ├── convert.py
+   ├── hole.html            <-- (Secret portal target)
+   ├── leberch-space-440026.mp3 <-- (Space audio asset)
    ├── requirments.txt
-   ├── conver.py
-   ├── uploads
-   ├── processed
+   ├── run.bat
+   ├── processed/
+   ├── uploads/
    └── templates/
-       └── index.html
+       └── index.html       <-- (Main cockpit UI)
