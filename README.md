@@ -1,6 +1,11 @@
-# ADAS Neural Perception Platform
+# ADAS Neural Perception Platform | Autonomous Telemetry Cockpit
 
 **Author:** Void / Mitadru Karmakar
+
+---
+
+## 🚀 Overview
+The **ADAS Neural Perception Platform** is an enterprise-grade, high-throughput autonomous driving assistance system. It combines real-time computer vision object detection (YOLOv8/TensorRT), spatial kinematic triangulation with anti-flicker smoothing, a dynamic ego-corridor risk arbitrator, a top-down phosphor radar HUD, and zero-buffer browser-based client camera ingestion supporting local PC webcams and mobile phone dashcams.
 
 ---
 
@@ -40,20 +45,29 @@
 ---
 
 ## 3. Backend & Frontend Architecture (VS Code Workspace)
-* **Backend (`app.py`):** FastAPI and Uvicorn server implementing adaptive model binding, spatial depth/kinematic triangulation via `SensitiveADASPerceptionEngine`, ego-vehicle dashboard masking (`ny2 >= 0.93`), duplicate filtering, and real-time WebSocket video/telemetry streaming at 10-19 FPS.
-  * **Adaptive Model Binding:** Automatically prioritizes compiled TensorRT GPU engine (`best.engine`), falling back to CUDA PyTorch or CPU runtimes.
-  * **SensitiveADASPerceptionEngine:** Computes real-world spatial depth ($z$) and lateral position ($x$) using camera focal length calibration and bounding box height triangulation, tracks objects across frames with velocity vectors, calculates Time-To-Collision (TTC), and evaluates threat levels into Critical, Caution, or Normal tiers based on ego-corridor proximity.
-  * **Ego-Vehicle & Duplicate Filtering:** `is_ego_vehicle_part` masks out the vehicle's dashboard hood at the bottom edge (`ny2 >= 0.93`) to prevent false self-wiping of traffic, and `deduplicate_detections` suppresses overlapping bounding boxes and nested misclassifications.
-  * **WebSocket Stream Pipeline (`/ws/live/{job_id}`):** Decodes video frames frame-by-frame, runs strided inference, compresses via Turbo JPEG, and broadcasts video + JSON telemetry at 10-19 FPS.
-* **Frontend (`templates/index.html`):** Tailwind CSS dashboard managing file uploads (`/upload_live`) to trigger websocket streaming, WebSocket client communication, base64 JPEG frame rendering, and dynamic threat-tier HUD visualization.
-  * **Tailwind CSS Dashboard:** Modern, high-contrast HUD layout optimized for vehicular telemetry.
-  * **WebSocket Client & Video Renderer:** Connects to backend websocket, receives base64-encoded JPEG frames, and renders them onto the UI canvas.
-  * **Dynamic HUD & Radar Map:** Draws bounding box brackets color-coded by threat severity (Red = Critical, Amber = Caution, Cyan = Normal) alongside a live 2D radar blip map.
+
+### 🖥️ Backend (`app.py`)
+* **FastAPI & Uvicorn Server:** Implements adaptive model binding, spatial depth/kinematic triangulation via `SensitiveADASPerceptionEngine`, ego-vehicle dashboard masking (`ny2 >= 0.93`), duplicate filtering, and real-time WebSocket video/telemetry streaming.
+* **Adaptive Model Binding:** Automatically prioritizes compiled TensorRT GPU engine (`best.engine`), falling back to CUDA PyTorch or CPU runtimes.
+* **SensitiveADASPerceptionEngine:** 
+  * Computes real-world spatial depth ($z$) and lateral position ($x$) using camera focal length calibration and bounding box height triangulation.
+  * Implements **Exponential Moving Average (EMA) box smoothing** and **5-frame track coasting** to eliminate bounding box jitter, tracking drops, and visual flickering.
+  * Uses dual-threshold hysteresis to lock hazard classification tiers (Critical, Caution, Normal) and calculates Time-To-Collision (TTC).
+* **Universal Client Camera Ingestion (`/ws/camera/{session_id}`):** Non-blocking asynchronous frame decoders running at uninhibited throughput, allowing remote or local client webcams and mobile phone cameras to stream directly to the GPU engine without server-side camera locks.
+
+### 🌐 Frontend (`templates/index.html`)
+* **Tailwind CSS Cockpit Dashboard:** High-contrast tactical HUD layout optimized for vehicular telemetry.
+* **Hardened Hardware Isolation:** Automatically detects device capability (`maxTouchPoints` / `pointer: coarse`) and completely isolates hardware buttons:
+  * *Desktop/Laptop:* PC webcam controls are rendered; mobile options are permanently purged from the DOM.
+  * *Mobile Handheld:* Mobile dashcam controls are rendered; PC webcam options are permanently purged from the DOM.
+* **High-Speed Client Streaming Loop:** Uses an asynchronous `requestAnimationFrame` and backpressure-guarded `toBlob` pipeline to stream mobile and PC camera feeds at maximum frame rates.
+* **Dynamic HUD & Radar Map:** Renders tactical framing brackets, boresight crosshairs, threat-tier color coding (Red = Critical/Braking, Amber = Caution, Cyan = Normal/Far), and a live $360^\circ$ rotating phosphor radar map.
+* **Hidden Easter Egg Warp Portal:** Clicking the `VOID WEBSOCKET STREAM` header badge **10 times** triggers a synthetic space-warp sound effect and reveals the `🚀 WARP_CORE_PORTAL` button. The portal auto-reverts back to normal after 10 seconds. Clicking the portal button opens the spatial black hole simulation in a new tab (see [`SECRET.md`](SECRET.md)).
 
 ---
 
 ## 4. Local Automation & Startup (`run.bat`)
-Automated batch script to run FastAPI backend and Cloudflare Quick Tunnel concurrently:
+Automated batch script to run the FastAPI backend and Cloudflare Quick Tunnel concurrently:
 
 ```cmd
 @echo off
